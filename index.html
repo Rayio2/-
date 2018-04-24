@@ -17,23 +17,61 @@
     </style>
 </head>
 <body>
-    <div class="top-nav-bar">
+    <div id="topNavBar" class="top-nav-bar">
         <div class="inner clearfix">
             <a href="#" class="logo">
                 <span class="rs">RS</span>
                 <span class="card">card</span>
             </a>
-            <nav>
+            <nav class='menu'>
                 <ul class="clearfix">
-                    <li><a href="#">ABOUT</a></li>
-                    <li><a href="#">SKILLS</a></li>
-                    <li><a href="#">EXPERIENCE</a></li>
-                    <li><a href="#">PRICING</a></li>
-                    <li><a href="#">BLOG</a></li>
-                    <li><a href="#">CALENDAR</a></li>
-                    <li><a href="#">CONTACE</a></li>
-                    <li><a href="#">OTHER</a></li>
-                    <li><a href="#">ALL DEMOS</a></li>
+                    <li>
+                        <ul class="topmenu">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                        <a href="#siteAbout">ABOUT</a>
+                        <div class="downbar"></div>
+                    </li>
+                    <li>
+                        <a href="#siteSkills">SKILLS</a>
+                        <div class="downbar"></div>
+                    </li>
+                    <li>
+                        <a href="#siteWorks">WORKS</a>
+                        <div class="downbar"></div>
+                    </li>
+                    <li class="menutrigger">
+                        <a  href="#">BLOG</a>
+                        <div class="downbar"></div>
+                        <ul class="topmenu">
+                            <li>blog1</li>
+                            <li>blog2</li>
+                            <li>blog3</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">CALENDAR</a>
+                        <div class="downbar"></div>
+                    </li>
+                    <li>
+                        <a href="#">CONTACE</a>
+                        <div class="downbar"></div>
+                    </li>
+                    <li>
+                        <a href="#">OTHER</a>
+                        <div class="downbar"></div>
+                    </li>
+                    <li class="menutrigger">
+                        <a href="#">ALL DEMOS</a>
+                        <div class="downbar"></div>
+                        <ul class="topmenu">
+                            <li>demo1</li>
+                            <li>demo2</li>
+                            <li>demo3</li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </div>   
@@ -42,7 +80,7 @@
         <div class="coverimg"></div>
     </div>
     <main>
-        <div class="usercard">
+        <div data-x id="siteAbout" class="usercard">
             <div class="textandimg clearfix">
                     <div class="picture">
                         <img src="./picture/peo.jpg" alt="selfphoto">
@@ -91,7 +129,7 @@
     <p class="self-introduction">姚徵羽，前端爱好学习者，在杭州就读</p>   
     </main>
 
-    <section class="skills">
+    <section data-x id="siteSkills" class="skills">
         <h2>Professional Skills</h2>
         <ol class="clearfix">
             <li>  
@@ -133,7 +171,7 @@
         </ol>
     </section>
     
-    <section class="portfolio">
+    <section data-x id="siteWorks" class="portfolio">
         <h2>Portfolio</h2>
         <nav>
             <ol>
@@ -145,7 +183,9 @@
                 <div class="bar-inner"></div>
             </div>
         </nav>
-        <script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js"></script>
+        <script>   
+            
             bar1.onclick=function()
             {
                 bar.className='trans-bar stat-1'
@@ -158,7 +198,129 @@
             {
                 bar.className='trans-bar stat-3'
             }
-        </script>
+            var minindex=0
+            let specialTags = document.querySelectorAll('[data-x]')
+            let id = specialTags[0].id  
+            targeta = document.querySelector('a[href="#'+id+'"]')
+            div=targeta.nextSibling.nextSibling
+            div.classList.add('active')
+            window.onscroll=function(xxx){
+                if(window.scrollY>0)
+                {
+                    topNavBar.classList.add('sticky')
+                }
+                else{
+                    topNavBar.classList.remove('sticky')
+                }
+                
+                for(let i = 0;i<specialTags.length;i++)
+                {
+                    if(Math.abs(specialTags[i].offsetTop-window.scrollY)<Math.abs(specialTags[minindex].offsetTop-window.scrollY))
+                    {
+                        let idforuse = specialTags[minindex].id
+                        targetb = document.querySelector('a[href="#'+idforuse+'"]')
+                        
+                        
+                        
+                        minindex = i;
+                       
+                       
+                        let id = specialTags[minindex].id  
+                        targeta = document.querySelector('a[href="#'+id+'"]')
+                        div=targeta.nextSibling.nextSibling
+                        div.classList.add('active')
+                        console.log('add')
+
+                        div=targetb.nextSibling.nextSibling
+                        if(div)
+                        div.classList.remove('active')
+                        console.log('remove')  
+                        
+                    }
+                    
+                }
+                
+            }
+        
+        let aTags = document.getElementsByClassName('menutrigger')
+        for(let i=0;i<aTags.length;i++)
+        {
+            aTags[i].onmouseenter = function(x){
+               let a = x.currentTarget
+               let child = a.childNodes
+               for(i=0;i<child.length;i++)
+               {
+                   let b = child[i];
+                    while(b.tagName)
+                    {
+                        if(b.tagName==='UL')
+                        {
+                            break;
+                        }
+                        else
+                        {
+                         b =b.nextSibling;
+                        }
+                    }
+                    if(b.tagName)
+                    b.classList.add('active')
+                    
+               }
+               
+            }
+            aTags[i].onmouseleave = function(x){
+               let a = x.currentTarget
+               let child = a.childNodes
+               for(i=0;i<child.length;i++)
+               {
+                   let b = child[i];
+                    while(b.tagName)
+                    {
+                        if(b.tagName==='UL')
+                        {
+                            break;
+                        }
+                        else
+                        {
+                         b =b.nextSibling;
+                        }
+                    
+                    }
+                if(b.tagName)
+                b.classList.remove('active')
+               }
+            }
+            let ATags = document.querySelectorAll('nav.menu>ul>li>a')
+            function animate(time) {
+                requestAnimationFrame(animate);
+                TWEEN.update(time);
+            }
+            requestAnimationFrame(animate);
+            for(let i=0;i<ATags.length;i++)
+            {
+                ATags[i].onclick=function(x)
+                {
+                    x.preventDefault()
+                    let a = x.currentTarget
+                    let herf = a.getAttribute('href')
+                    let element = document.querySelector(herf)
+                    let top = element.offsetTop-80
+
+                    var n = window.scrollY                 
+                    var coords = {y: n}; // Start at (0, 0)
+                  
+                    var tween = new TWEEN.Tween(coords) // Create a new tween that modifies 'coords'.
+                    .to({y:top}, 1000) // Move to (300, 200) in 1 second.
+                    .easing(TWEEN.Easing.Quadratic.In) // Use an easing function to make the animation smooth.
+                    .onUpdate(function() { // Called after tween.js updates 'coords'.
+                        window.scrollTo(0,coords.y)
+                    })
+                    .start(); 
+                   
+                }
+            }
+        }
+        </script>   
         <div class="jobs">
             <div class="big">
                 <img src="./picture/big.jpg" alt="">
@@ -175,3 +337,5 @@
     </section>
 </body>
 </html>
+
+
